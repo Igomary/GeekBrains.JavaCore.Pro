@@ -1,7 +1,7 @@
 package lesson5;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
+//import java.util.concurrent.CyclicBarrier;
 
 public class Car implements Runnable {
     private CountDownLatch cStart;
@@ -14,12 +14,18 @@ public class Car implements Runnable {
     private Race race;
     private int speed;
     private String name;
+
     public String getName() {
         return name;
     }
     public int getSpeed() {
         return speed;
     }
+
+    public CountDownLatch getcStop() {
+        return cStop;
+    }
+
     public Car(Race race, int speed, CountDownLatch cStart, CountDownLatch cStop) {
         this.race = race;
         this.speed = speed;
@@ -44,6 +50,11 @@ public class Car implements Runnable {
         for (int i = 0; i < race.getStages().size(); i++) {
             race.getStages().get(i).go(this);
         }
+       /* if (cStop.getCount() == 4) {
+            System.out.println(this.name + " WIN");
+        }*/
         cStop.countDown();
     }
+
+
 }

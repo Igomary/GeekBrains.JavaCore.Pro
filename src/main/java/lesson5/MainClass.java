@@ -3,7 +3,7 @@ package lesson5;
 
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
+//import java.util.concurrent.CyclicBarrier;
 
 
 public class MainClass {
@@ -31,6 +31,9 @@ public class MainClass {
                     START.await();
                     //cyclicBarrier.await();
                     cars[w].start();
+                    if (STOP.getCount() == 3) {
+                        System.out.println(cars[w].getName() + " WIN");
+                    }
                    STOP.await();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
