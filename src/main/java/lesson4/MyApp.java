@@ -6,12 +6,9 @@ public class MyApp {
 
     public static void main(String[] args) {
         MyApp thisInstance = new MyApp();
-        Thread t1 = new Thread(() -> thisInstance.print('A'));
-        Thread t2 = new Thread(() -> thisInstance.print('B'));
-        Thread t3 = new Thread(() -> thisInstance.print('C'));
-        t1.start();
-        t2.start();
-        t3.start();
+        new Thread(() -> thisInstance.print('A')).start();
+        new Thread(() -> thisInstance.print('B')).start();
+        new Thread(() -> thisInstance.print('C')).start();
 
     }
 
