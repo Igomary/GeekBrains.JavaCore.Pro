@@ -1,12 +1,14 @@
 package lesson5;
 
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 //import java.util.concurrent.CyclicBarrier;
 
 public class Car implements Runnable {
     private CountDownLatch cStart;
     private CountDownLatch cStop;
-    //private CyclicBarrier cyclicBarrier;
+   // private CyclicBarrier cyclicBarrier;
     private static int CARS_COUNT;
     static {
         CARS_COUNT = 0;
@@ -33,6 +35,7 @@ public class Car implements Runnable {
         this.name = "Участник #" + CARS_COUNT;
         this.cStart = cStart;
         this.cStop = cStop;
+       // this.cyclicBarrier = cyclicBarrier;
     }
 
     public void run() {
@@ -40,20 +43,23 @@ public class Car implements Runnable {
             System.out.println(this.name + " готовится");
             Thread.sleep(500 + (int)(Math.random() * 800));
             System.out.println(this.name + " готов");
+           // cyclicBarrier.await();
             cStart.countDown();
+            cStart.await();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+            start();
+
     }
 
-    public void start() {
+    private void start() {
         for (int i = 0; i < race.getStages().size(); i++) {
             race.getStages().get(i).go(this);
         }
-       /* if (cStop.getCount() == 4) {
-            System.out.println(this.name + " WIN");
-        }*/
         cStop.countDown();
+        // cyclicBarrier.await();
     }
 
 
