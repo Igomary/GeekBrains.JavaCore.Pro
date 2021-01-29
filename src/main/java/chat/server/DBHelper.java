@@ -1,13 +1,29 @@
 package chat.server;
 
+import java.io.IOException;
 import java.sql.*;
+import java.util.logging.*;
 
 public class DBHelper implements AutoCloseable {
 
     public static DBHelper instance;
     private static Connection connection;
+    private static final Logger logger = Logger.getLogger(Server.class.getName());
 
     private DBHelper() {
+        logger.setLevel(Level.INFO);
+        logger.setUseParentHandlers(false);
+        Handler handler = null;
+        try {
+            handler = new FileHandler("log_DBHelper.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        handler.setLevel(Level.INFO);
+        handler.setFormatter(new SimpleFormatter());
+
+        logger.addHandler(handler);
 
     }
 
@@ -34,6 +50,7 @@ public class DBHelper implements AutoCloseable {
             connection = DriverManager.getConnection("jdbc:sqlite:UsersDB.db");
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Соединение с базой данных не установлено, "+e.getMessage());
+            logger.log(Level.SEVERE,"Соединение с базой данных не установлено, \"+e.getMessage()" );
         }
     }
 
